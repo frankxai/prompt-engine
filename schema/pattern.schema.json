@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/frankxai/prompt-engine/schema/pattern.schema.json",
+  "title": "Prompt Pattern",
+  "description": "Frontmatter schema for prompt-library patterns. Every pattern.md file must validate against this schema.",
+  "type": "object",
+  "required": ["id", "version", "title", "description", "lane", "category", "tags", "techniques", "provenance", "eval", "red_team", "psyche", "created", "updated"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$",
+      "description": "verb_topic, kebab-snake-case. e.g. extract_wisdom"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semver. Patch=typo, minor=backward-compat improvement, major=behavior change."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 240,
+      "description": "One sentence describing the pattern's purpose."
+    },
+    "lane": {
+      "type": "string",
+      "enum": ["claude", "gpt", "gemini", "oss", "cross-lab"]
+    },
+    "category": {
+      "type": "string",
+      "enum": ["analyze", "create", "extract", "summarize", "answer", "audit", "check", "compare", "improve", "write", "rate", "introspect", "profile"]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "techniques": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["chain-of-thought", "tree-of-thought", "react", "constitutional", "self-consistency", "atom-of-thoughts", "few-shot", "zero-shot", "prefill", "xml-tags", "structured-output", "retrieval-augmented", "cot"]
+      },
+      "minItems": 0,
+      "description": "Cross-cutting techniques from DAIR.AI taxonomy"
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source", "attribution", "license"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["original", "fabric", "awesome-chatgpt-prompts", "awesome-claude-prompts", "manual", "harvested-from-paper", "anthropic-docs", "openai-docs", "google-docs"]
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution": {
+          "type": "string",
+          "description": "Human-readable attribution string."
+        },
+        "license": {
+          "type": "string",
+          "enum": ["MIT", "CC0", "Apache-2.0", "BSD-3-Clause", "ISC", "docs-quoted"]
+        }
+      }
+    },
+    "eval": {
+      "type": "object",
+      "required": ["score", "last_run", "test_count"],
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "0-5 weighted average from promptfoo"
+        },
+        "last_run": {
+          "type": "string",
+          "format": "date"
+        },
+        "test_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "red_team": {
+      "type": "object",
+      "required": ["status", "audited"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "warn", "fail", "pending"]
+        },
+        "audited": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "psyche": {
+      "type": "object",
+      "required": ["applicable", "boundary", "risk"],
+      "additionalProperties": false,
+      "properties": {
+        "applicable": {
+          "type": "boolean",
+          "description": "Only true for introspect/profile lanes."
+        },
+        "boundary": {
+          "type": "string",
+          "enum": ["maps-only", "instruments-only", "n/a"]
+        },
+        "risk": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Parasocial / false-insight risk"
+        }
+      }
+    },
+    "created": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

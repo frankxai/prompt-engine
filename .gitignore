@@ -1,0 +1,32 @@
+# Node
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Promptfoo
+evals/*/results.json
+evals/*/output/
+.promptfoo/
+
+# Logs
+*.log
+
+# Local
+.local/
+tmp/

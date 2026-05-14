@@ -1,0 +1,51 @@
+{
+  "name": "prompt-engine",
+  "version": "0.1.0",
+  "description": "The 13-agent team that designs, optimizes, evaluates, and red-teams elite prompts across every major model family.",
+  "license": "MIT",
+  "type": "module",
+  "author": "Frank Riemer <friemerx@gmail.com>",
+  "homepage": "https://github.com/frankxai/prompt-engine",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frankxai/prompt-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frankxai/prompt-engine/issues"
+  },
+  "keywords": [
+    "prompt-engineering",
+    "claude",
+    "gpt",
+    "gemini",
+    "llm",
+    "agents",
+    "promptfoo",
+    "evals",
+    "red-team",
+    "ifs"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "bin": {
+    "prompt-engine": "./bin/hub.mjs"
+  },
+  "scripts": {
+    "hub": "node bin/hub.mjs",
+    "eval": "promptfoo eval",
+    "validate": "node bin/validate-schema.mjs"
+  },
+  "devDependencies": {
+    "promptfoo": "^0.95.0"
+  },
+  "files": [
+    "bin/",
+    "agents/",
+    "flows/",
+    "schema/",
+    "docs/",
+    "LICENSE",
+    "README.md"
+  ]
+}
