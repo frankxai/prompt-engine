@@ -152,7 +152,7 @@ See [`schema/pattern.schema.json`](./schema/pattern.schema.json) for the full JS
 
 ## Eval harness
 
-Each pattern's `evals/promptfoo.yaml` declares declarative test cases. CI runs `promptfoo eval` on every PR.
+Each pattern's `evals/promptfoo.yaml` declares declarative test cases. Run `pnpm run eval` (`promptfoo eval`) locally before opening a PR — CI is not yet wired for this repo, so this is a manual gate for now.
 
 ```yaml
 description: Evals for extract_wisdom
@@ -181,7 +181,7 @@ Pull requests welcome. Standard flow:
 1. Read [`docs/contributing.md`](./docs/contributing.md).
 2. Open an issue describing the agent/flow/schema change.
 3. Fork, branch, commit, PR.
-4. CI runs promptfoo evals + schema validation.
+4. Run `pnpm run eval` and `pnpm run validate` locally before requesting review (CI is not yet wired for this repo).
 5. Two reviewers must sign off before merge.
 
 Adding a pattern? Submit to [`prompt-library`](https://github.com/frankxai/prompt-library) instead.
