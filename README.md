@@ -181,7 +181,7 @@ Pull requests welcome. Standard flow:
 1. Read [`docs/contributing.md`](./docs/contributing.md).
 2. Open an issue describing the agent/flow/schema change.
 3. Fork, branch, commit, PR.
-4. Run `pnpm run eval` and `pnpm run validate` locally before requesting review (CI is not yet wired for this repo).
+4. Run `pnpm run eval` locally before requesting review (CI is not yet wired for this repo, and the `pnpm run validate` target `bin/validate-schema.mjs` does not exist yet).
 5. Two reviewers must sign off before merge.
 
 Adding a pattern? Submit to [`prompt-library`](https://github.com/frankxai/prompt-library) instead.

@@ -14,9 +14,9 @@ This is the horizontal substrate that designs, optimizes, evaluates, and red-tea
   pnpm run hub optimize "<prompt>"
   pnpm run hub evaluate prompts/<pattern>/
   pnpm run eval                      # promptfoo eval
-  pnpm run validate                  # node bin/validate-schema.mjs — schema/pattern.schema.json
+  pnpm run validate                  # BROKEN: package.json points it at bin/validate-schema.mjs, which is not in the tree yet
   ```
-- **No CI is wired yet** (`.github/` does not exist in this repo despite the README describing a CI-gated flow). Until it lands, `pnpm run eval` and `pnpm run validate` are manual pre-PR gates — run both before opening a PR, and don't claim "CI passed" in a PR description.
+- **No CI is wired yet** (`.github/` does not exist in this repo despite the README describing a CI-gated flow). Until it lands, `pnpm run eval` is the manual pre-PR gate — run it before opening a PR, and don't claim "CI passed" in a PR description. `pnpm run validate` joins the gate once `bin/validate-schema.mjs` actually exists.
 - **Preserve existing conventions.** Do not touch unrelated dirty/untracked files (e.g. `.asph-wip/` is another harness's scratch state — never stage it).
 - Do not publish secrets, private memory, credentials, or internal-only strategy.
 
