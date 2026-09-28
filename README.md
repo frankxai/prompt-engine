@@ -24,21 +24,24 @@ Companion repo: [`frankxai/prompt-library`](https://github.com/frankxai/prompt-l
 ## Quick start
 
 ```bash
-# Requires Node 22+
-git clone https://github.com/frankxai/prompt-engine.git
-cd prompt-engine
-pnpm install
+# Requires Node 22+. Install the 13 agents into Claude Code (~/.claude/agents):
+npx @frankxai/prompt-engine install
 
-# Run a flow
-pnpm run hub design "summarize podcasts in my voice"
-pnpm run hub optimize "<paste prompt>"
-pnpm run hub evaluate prompts/extract_wisdom/
-
-# Run promptfoo evals
-pnpm run eval
+# Then, in any Claude Code session:
+#   "design a prompt for summarizing podcasts in my voice"   -> @prompt-conductor runs flow-design
 ```
 
-For Claude Code integration, mirror the agents in `agents/` into your `.claude/agents/` directory (see [Composition into Claude Code](#composition-into-claude-code) below).
+The flows run inside Claude Code; the CLI installs and describes them:
+
+```bash
+npx @frankxai/prompt-engine agents            # the 13 agents
+npx @frankxai/prompt-engine flows             # the 8 flows and the agents each chains
+npx @frankxai/prompt-engine install --dry-run # what install would change
+```
+
+Every command takes `--json` (exactly one JSON document on stdout) for agents and scripts. `install` never overwrites an agent you edited; a conflict stops the install unless you pass `--force`. Exit codes: 0 ok, 1 usage error or install conflict.
+
+To run the promptfoo evals from a clone: `pnpm install && pnpm run eval`.
 
 ---
 
@@ -89,9 +92,9 @@ Each flow's full sequence + handoff contract lives in [`flows/`](./flows/).
 
 ## Composition into Claude Code
 
-The agents in this repo are designed to mirror into Claude Code's `.claude/agents/` directory. Two ways to wire them up:
+The agents in this repo are designed to mirror into Claude Code's `.claude/agents/` directory. `npx @frankxai/prompt-engine install` does this safely (see [Quick start](#quick-start)). To wire them by hand instead:
 
-**Symlink (recommended for dev)**:
+**Symlink (for development)**:
 ```bash
 ln -s $(pwd)/agents/prompt-conductor.md ~/.claude/agents/prompt-conductor.md
 # ...repeat for all 13

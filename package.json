@@ -1,5 +1,5 @@
 {
-  "name": "prompt-engine",
+  "name": "@frankxai/prompt-engine",
   "version": "0.1.0",
   "description": "The 13-agent team that designs, optimizes, evaluates, and red-teams elite prompts across every major model family.",
   "license": "MIT",
@@ -34,18 +34,22 @@
   "scripts": {
     "hub": "node bin/hub.mjs",
     "eval": "promptfoo eval",
-    "validate": "node bin/validate-schema.mjs"
+    "test": "node --test test/*.test.mjs"
   },
   "devDependencies": {
     "promptfoo": "^0.95.0"
   },
   "files": [
     "bin/",
+    "lib/",
     "agents/",
     "flows/",
     "schema/",
     "docs/",
     "LICENSE",
     "README.md"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
