@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "source": {
+    "repository": "example/synthetic-catalog",
+    "revision": "SYNTHETIC-REVISION-1",
+    "visibility": "public"
+  },
+  "prefixes": {
+    "shared": "SYNTHETIC SHARED INSTRUCTIONS: Honor what you received. Take responsibility for what you pass on. Produce useful work, label assumptions, and preserve owner control.",
+    "specialists": {
+      "design": "SYNTHETIC DESIGN PREFIX: Define visual rules with observable acceptance checks.",
+      "teaching": "SYNTHETIC TEACHING PREFIX: Teach through inspectable examples and separate observations from proposals.",
+      "receipt": "SYNTHETIC RECEIPT PREFIX: Report completed, skipped, unavailable, and failed checks accurately."
+    }
+  },
+  "prompts": [
+    {
+      "id": "synthetic_design_constitution",
+      "version": "1.0.0",
+      "title": "Synthetic design constitution",
+      "brand": "Synthetic Design",
+      "specialist": "design",
+      "objective": "Define a small visual constitution for a fictional reading application.",
+      "input_requirements": ["Owner-supplied palette", "Two approved fictional page examples"],
+      "output_contract": ["Markdown constitution", "JSON token table", "Acceptance checklist"],
+      "owning_repository": "example/synthetic-design",
+      "owning_issue": 1,
+      "role_owner": "design-maker",
+      "dependencies": ["Approved palette must be supplied before implementation."],
+      "visibility": "public",
+      "acceptance": ["Every visual rule has a testable example.", "Unknown tokens remain labeled as missing."],
+      "resource_ceiling": { "currency": "EUR", "cash_minor": 0, "attempts": 2, "time_minutes": 20 },
+      "prompt": "Using the supplied palette and two fictional pages, create a design constitution with spacing, type, contrast, and component rules. Return Markdown, JSON tokens, and an acceptance checklist. Do not claim an interface has been implemented."
+    },
+    {
+      "id": "synthetic_teaching_article",
+      "version": "1.0.0",
+      "title": "Synthetic teaching article",
+      "brand": "Synthetic Academy",
+      "specialist": "teaching",
+      "objective": "Explain one architecture tradeoff using a supplied fictional decision record.",
+      "input_requirements": ["Fictional decision record", "Declared learner task"],
+      "output_contract": ["One teaching article", "Source-to-claim table", "Learner exercise"],
+      "owning_repository": "example/synthetic-academy",
+      "owning_issue": 2,
+      "role_owner": "teaching-maker",
+      "dependencies": [],
+      "visibility": "private",
+      "acceptance": ["The tradeoff is supported by the supplied record.", "The exercise has a visible success criterion."],
+      "resource_ceiling": { "currency": "EUR", "cash_minor": 0, "attempts": 2, "time_minutes": 20 },
+      "prompt": "Using the fictional decision record, write an article explaining a reversible architecture choice. Include a source-to-claim table and an exercise that asks the learner to make a decision under a stated constraint. Mark absent evidence explicitly."
+    },
+    {
+      "id": "synthetic_product_receipt",
+      "version": "1.0.0",
+      "title": "Synthetic product acceptance receipt",
+      "brand": "Synthetic Tools",
+      "specialist": "receipt",
+      "objective": "Prepare an honest acceptance receipt from supplied fictional check records.",
+      "input_requirements": ["Fictional exact revision", "Fictional check results and skipped-check reasons"],
+      "output_contract": ["Acceptance receipt", "Open dependency list", "Release decision"],
+      "owning_repository": "example/synthetic-tools",
+      "owning_issue": 3,
+      "role_owner": "acceptance-verifier",
+      "dependencies": ["An independent owner must approve any external release."],
+      "visibility": "public",
+      "acceptance": ["Every claimed result references a supplied record.", "Skipped checks cannot become passes."],
+      "resource_ceiling": { "currency": "EUR", "cash_minor": 0, "attempts": 1, "time_minutes": 15 },
+      "prompt": "Read the fictional revision and check records. Produce an acceptance receipt listing actual passes, failures, skipped checks, and unresolved dependencies. State whether the evidence supports release, and preserve the distinction between a local artifact and a published product."
+    }
+  ]
+}

@@ -64,7 +64,7 @@ test('install never overwrites a locally edited agent unless --force', async () 
 });
 
 test('usage errors exit 1 with one JSON document under --json', async () => {
-  for (const argv of [['nope', '--json'], ['agents', 'extra', '--json'], ['install', '--target', '--json'], ['agents', '--bogus', '--json']]) {
+  for (const argv of [['nope', '--json'], ['constructor', '--json'], ['toString', '--json'], ['agents', 'extra', '--json'], ['install', '--target', '--json'], ['agents', '--bogus', '--json']]) {
     const d = io();
     assert.equal(await run(argv, d), 1, argv.join(' '));
     assert.equal(d.out.stdout.length, 1);
