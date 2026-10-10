@@ -43,6 +43,31 @@ Every command takes `--json` (exactly one JSON document on stdout) for agents an
 
 To run the promptfoo evals from a clone: `pnpm install && pnpm run eval`.
 
+## Local task packets
+
+From a clone, compose a complete task brief using a stable ID:
+
+```bash
+node bin/hub.mjs compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_design_constitution
+node bin/hub.mjs compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_design_constitution --json
+node bin/validate-task-catalog.mjs test/fixtures/synthetic-catalog.json
+node --test test/*.test.mjs
+```
+
+The committed fixtures are entirely synthetic: a design constitution, teaching article, and product acceptance receipt. The teaching fixture is marked private solely to exercise the boundary. Keep the owner-supplied catalog outside this public tree or in ignored `.local/`; `prompt-library` owns the corpus. Adapt it to [`schema/task-catalog.schema.json`](schema/task-catalog.schema.json), then select an ID with `--catalog <local.json> --id <stable-id>`.
+
+Packets include shared and specialist instructions, the full task, source revision, objective, inputs, outputs, repository/issue, role owner, dependencies, acceptance, visibility, and resource ceilings. The stable composition hash changes when the selected content, prefixes, or source revision changes. It detects accidental content changes; it does not authenticate an author.
+
+Prepare an exact GitHub destination and copy-ready payload without dispatching:
+
+```bash
+node bin/hub.mjs compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_design_constitution --dry-run --destination github-issue:example/synthetic-destination --destination-visibility public --json
+```
+
+Private payloads require `--destination-visibility private` and `--approved-private-destination github-issue:owner/repo` matching the exact destination. This records the operator's approval; it does not verify a repository's actual privacy, permissions, or access. The current adapter always returns `dispatch.performed: false` and sends no external request.
+
+Composition starts at `prepared`. A supplied `--receipt <returned.json>` can record a returned execution identifier and state; `queued` remains distinct from `running`. These typed receipts are operator-supplied observations, not authentication or proof that a worker remains alive. Completion additionally requires an evidence reference and may follow prepared, queued, or blocked when the job finishes between observations. See [the task-packet contract](docs/task-packets.md) for inputs, limitations, and transitions.
+
 ---
 
 ## The 13-agent team
@@ -155,7 +180,7 @@ See [`schema/pattern.schema.json`](./schema/pattern.schema.json) for the full JS
 
 ## Eval harness
 
-Each pattern's `evals/promptfoo.yaml` declares declarative test cases. Run `pnpm run eval` (`promptfoo eval`) locally before opening a PR — CI is not yet wired for this repo, so this is a manual gate for now.
+Patterns may supply an `evals/promptfoo.yaml` declaring test cases. This engine revision has no checked-in promptfoo configuration or eval prompts. Run `pnpm run eval` (`promptfoo eval`) before opening a PR and report the actual result, including unavailable native dependencies or absent inputs. Task-packet behavior is tested locally with `node --test test/*.test.mjs`; these deterministic checks do not evaluate model output quality. CI is not yet wired.
 
 ```yaml
 description: Evals for extract_wisdom
@@ -184,7 +209,7 @@ Pull requests welcome. Standard flow:
 1. Read [`docs/contributing.md`](./docs/contributing.md).
 2. Open an issue describing the agent/flow/schema change.
 3. Fork, branch, commit, PR.
-4. Run `pnpm run eval` locally before requesting review (CI is not yet wired for this repo, and the `pnpm run validate` target `bin/validate-schema.mjs` does not exist yet).
+4. Run native tests, validate any local task-catalog fixture, and attempt `pnpm run eval` before requesting review. Report unavailable checks accurately; CI is not yet wired. `pnpm run validate <local.json>` validates the task adapter only; published corpus-pattern validation remains separate.
 5. Two reviewers must sign off before merge.
 
 Adding a pattern? Submit to [`prompt-library`](https://github.com/frankxai/prompt-library) instead.

@@ -10,13 +10,15 @@ This is the horizontal substrate that designs, optimizes, evaluates, and red-tea
 - **Install:** `pnpm install` (Node >=22 required — see `package.json` `engines`).
 - **Commands:**
   ```bash
-  pnpm run hub design "<ask>"       # node bin/hub.mjs — routes to a flow
-  pnpm run hub optimize "<prompt>"
-  pnpm run hub evaluate prompts/<pattern>/
+  pnpm run hub agents --json
+  pnpm run hub flows --json
+  pnpm run hub compose --catalog <local.json> --id <stable-id> --json
+  pnpm test                          # dependency-free native tests
   pnpm run eval                      # promptfoo eval
-  pnpm run validate                  # BROKEN: package.json points it at bin/validate-schema.mjs, which is not in the tree yet
+  pnpm run validate <local.json>      # validates the local task-catalog adapter, not corpus patterns
   ```
-- **No CI is wired yet** (`.github/` does not exist in this repo despite the README describing a CI-gated flow). Until it lands, `pnpm run eval` is the manual pre-PR gate — run it before opening a PR, and don't claim "CI passed" in a PR description. `pnpm run validate` joins the gate once `bin/validate-schema.mjs` actually exists.
+- **No CI is wired yet** (`.github/` does not exist). Native tests run without dependencies using `node --test test/*.test.mjs`. Run the promptfoo eval command before a PR and report its actual result; this revision has no checked-in promptfoo configuration or eval prompts. Unavailable dependencies or absent eval inputs are not passing gates, and provider calls require an authorized budget. Do not claim "CI passed."
+- **Task packets compose locally.** `compose` emits complete Markdown/JSON and can prepare a GitHub issue dry-run payload. It never sends an issue, launches a worker, or reserves resources. A private dry-run payload requires an exact owner-attested private destination; that declaration does not verify remote access. Supplied execution receipts are typed observations, not authenticated runtime proof. See [`docs/task-packets.md`](docs/task-packets.md).
 - **Preserve existing conventions.** Do not touch unrelated dirty/untracked files (e.g. `.asph-wip/` is another harness's scratch state — never stage it).
 - Do not publish secrets, private memory, credentials, or internal-only strategy.
 
@@ -27,7 +29,9 @@ This is the horizontal substrate that designs, optimizes, evaluates, and red-tea
 | `agents/` | 13 agent definitions (`prompt-*.md`), mirroring the source of truth at `FrankX/.claude/agents/prompt-*.md` |
 | `flows/` | The 8 canonical flow contracts (specialist sequence + handoff + success criterion) |
 | `schema/pattern.schema.json` | JSON Schema (draft-07) every published prompt pattern must satisfy |
+| `schema/task-{catalog,packet}.schema.json` | Local JSON adapter and complete task-packet contracts |
 | `bin/hub.mjs` | CLI entry point (`prompt-engine` bin) |
+| `lib/task-packets.mjs` | Local composition, receipt validation, and dry-run issue adapter |
 | `docs/contributing.md` | Full contribution guide — read before adding an agent, flow, or technique tag |
 | `docs/quickstart.md`, `docs/cross-ai-guide.md` | User-facing setup docs |
 
