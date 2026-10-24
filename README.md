@@ -180,7 +180,7 @@ See [`schema/pattern.schema.json`](./schema/pattern.schema.json) for the full JS
 
 ## Eval harness
 
-Patterns may supply an `evals/promptfoo.yaml` declaring test cases. This engine revision has no checked-in promptfoo configuration or eval prompts. Run `pnpm run eval` (`promptfoo eval`) before opening a PR and report the actual result, including unavailable native dependencies or absent inputs. Task-packet behavior is tested locally with `node --test test/*.test.mjs`; these deterministic checks do not evaluate model output quality. CI is not yet wired.
+Patterns may supply an `evals/promptfoo.yaml` declaring test cases. This engine revision has checked-in promptfoo configuration and eval prompts for the flagship workflow. Run `pnpm run eval -c evals/flagship-workflow/promptfoo.yaml` (`promptfoo eval -c ...`) before opening a PR and report the actual result, including unavailable native dependencies or absent inputs. Task-packet behavior is tested locally with `node --test test/*.test.mjs`; these deterministic checks do not evaluate model output quality. CI is not yet wired.
 
 ```yaml
 description: Evals for extract_wisdom
