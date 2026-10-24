@@ -176,6 +176,24 @@ test('catalog states and unsupported fields cannot fabricate execution during im
   assert.throws(() => validateCatalog(extra), /non-empty string/);
 });
 
+test('extended contract properties enforce presence and shape', () => {
+  const source = catalog();
+  delete source.prompts[0].skills;
+  assert.throws(() => validateCatalog(source), /prompts\[0\].skills must be an array of objects/);
+
+  const badSkill = catalog();
+  badSkill.prompts[0].skills = [{}];
+  assert.throws(() => validateCatalog(badSkill), /prompts\[0\].skills\[0\].source must be a non-empty string/);
+
+  const badBrand = catalog();
+  badBrand.prompts[0].brand_revision = '';
+  assert.throws(() => validateCatalog(badBrand), /prompts\[0\].brand_revision must be a non-empty string/);
+
+  const badCapability = catalog();
+  badCapability.prompts[0].harness_capabilities = [123];
+  assert.throws(() => validateCatalog(badCapability), /prompts\[0\].harness_capabilities\[0\] must be a non-empty string/);
+});
+
 test('CLI emits one JSON document or the full Markdown without writes', async () => {
   const local = mkdtempSync(path.join(tmpdir(), 'pe-packet-'));
   const filename = path.join(local, 'catalog.json'); writeFileSync(filename, JSON.stringify(catalog()));
