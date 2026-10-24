@@ -176,10 +176,15 @@ test('catalog states and unsupported fields cannot fabricate execution during im
   assert.throws(() => validateCatalog(extra), /non-empty string/);
 });
 
-test('extended contract properties enforce presence and shape', () => {
+test('extended contract properties enforce shape when present but remain backward-compatible', () => {
   const source = catalog();
+  // Validates properly when omitting the optional fields (backward compatibility)
   delete source.prompts[0].skills;
-  assert.throws(() => validateCatalog(source), /prompts\[0\].skills must be an array of objects/);
+  delete source.prompts[0].tools;
+  delete source.prompts[0].harness_capabilities;
+  delete source.prompts[0].model_configuration;
+  delete source.prompts[0].brand_revision;
+  validateCatalog(source);
 
   const badSkill = catalog();
   badSkill.prompts[0].skills = [{}];
@@ -192,6 +197,14 @@ test('extended contract properties enforce presence and shape', () => {
   const badCapability = catalog();
   badCapability.prompts[0].harness_capabilities = [123];
   assert.throws(() => validateCatalog(badCapability), /prompts\[0\].harness_capabilities\[0\] must be a non-empty string/);
+
+  const badConfigNan = catalog();
+  badConfigNan.prompts[0].model_configuration = { top_p: NaN };
+  assert.throws(() => validateCatalog(badConfigNan), /prompts\[0\].model_configuration.top_p must be a finite number/);
+
+  const badConfigInf = catalog();
+  badConfigInf.prompts[0].model_configuration = { temperature: Infinity };
+  assert.throws(() => validateCatalog(badConfigInf), /prompts\[0\].model_configuration.temperature must be a finite number/);
 });
 
 test('CLI emits one JSON document or the full Markdown without writes', async () => {
@@ -248,7 +261,13 @@ test('CLI consumes an explicit returned receipt and validator runs against a clo
 test('machine-readable schemas preserve the catalog and packet required fields', () => {
   const catalogSchema = JSON.parse(readFileSync(path.join(root, 'schema/task-catalog.schema.json'), 'utf8'));
   const packetSchema = JSON.parse(readFileSync(path.join(root, 'schema/task-packet.schema.json'), 'utf8'));
+
+  // The catalog requires exactly these root properties
   assert.equal(catalogSchema.additionalProperties, false);
   assert.deepEqual(Object.keys(catalog()).sort(), catalogSchema.required.toSorted());
-  assert.deepEqual(Object.keys(packet()).sort(), packetSchema.required.toSorted());
+
+  // Packets have exactly these required properties (which doesn't include optional properties)
+  const packetKeys = Object.keys(packet());
+  const requiredPacketKeys = packetKeys.filter(k => packetSchema.required.includes(k));
+  assert.deepEqual(requiredPacketKeys.sort(), packetSchema.required.toSorted());
 });
