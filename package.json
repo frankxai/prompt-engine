@@ -40,6 +40,9 @@
   "devDependencies": {
     "promptfoo": "^0.95.0"
   },
+  "devDependencies": {
+    "promptfoo": "^0.125.0"
+  },
   "files": [
     "bin/",
     "lib/",
