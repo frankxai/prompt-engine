@@ -19,8 +19,8 @@ Resource ceilings are declared planning constraints in integer minor currency un
 From a clone:
 
 ```bash
-node bin/hub.mjs compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_product_receipt --json
-node bin/validate-task-catalog.mjs test/fixtures/synthetic-catalog.json
+npm run hub -- compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_product_receipt --json
+npm run validate -- test/fixtures/synthetic-catalog.json
 ```
 
 With `--json`, stdout contains one packet or error document; without it, stdout contains the full Markdown. The command writes no files. Local stdout is an output channel chosen by the operator; any later copy, redirection, or dispatch requires the appropriate destination boundary. Keep private inputs and outputs outside the public repository or in ignored `.local/`.
@@ -28,7 +28,7 @@ With `--json`, stdout contains one packet or error document; without it, stdout 
 ## GitHub dry-run adapter
 
 ```bash
-node bin/hub.mjs compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_teaching_article --dry-run --destination github-issue:example/private-synthetic-destination --destination-visibility private --approved-private-destination github-issue:example/private-synthetic-destination --json
+npm run hub -- compose --catalog test/fixtures/synthetic-catalog.json --id synthetic_teaching_article --dry-run --destination github-issue:example/private-synthetic-destination --destination-visibility private --approved-private-destination github-issue:example/private-synthetic-destination --json
 ```
 
 This example uses public-safe synthetic text marked private to test handling. `prepareGithubIssueDryRun(packet, destination, approvedPrivateDestination)` produces an exact address, declared visibility, privacy/approval record, unchanged execution observation, and GitHub issue `title`/`body` payload. The complete brief is in the body. The adapter is dry-run only: `dispatch.performed` and `worker_started_by_this_command` are false, and no connector or network client is invoked.
@@ -57,6 +57,6 @@ A completed observation can follow prepared, queued, or blocked when an adapter 
 
 ## Verification scope
 
-Run `node --test test/*.test.mjs` and `node bin/validate-task-catalog.mjs test/fixtures/synthetic-catalog.json`. Tests cover all three synthetic classes, missing inputs/prefixes, duplicate IDs, private visibility inheritance, exact export approval, content tampering, unknown or unreceipted states, receipt identity/time/transition checks, and complete no-write CLI output.
+Run `npm run test` and `npm run validate -- test/fixtures/synthetic-catalog.json`. Tests cover all three synthetic classes, missing inputs/prefixes, duplicate IDs, private visibility inheritance, exact export approval, content tampering, unknown or unreceipted states, receipt identity/time/transition checks, and complete no-write CLI output.
 
 The runtime validator enforces catalog uniqueness and prefix resolution plus cross-field packet/receipt checks beyond JSON Schema. The new `validate` command applies to this local task-catalog adapter, not published prompt-pattern frontmatter. Model evals are separate and require configured prompts, dependencies, and an authorized provider budget. No CI workflow is introduced.

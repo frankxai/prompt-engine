@@ -83,6 +83,11 @@
       "minLength": 1,
       "pattern": "\\S"
     },
+    "brand_revision": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
     "specialist": {
       "type": "string",
       "pattern": "^(?:P\\d{3}|[a-z][a-z0-9]*(?:_[a-z0-9]+)*)$"
@@ -130,6 +135,75 @@
         "type": "string",
         "minLength": 1,
         "pattern": "\\S"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source",
+          "revision",
+          "license"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "license": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "required": [
+        "required",
+        "optional"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "harness_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "model_configuration": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "boolean"]
       }
     },
     "visibility": {

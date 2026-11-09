@@ -7,7 +7,7 @@ Get the engine running in 5 minutes.
 ```bash
 git clone https://github.com/frankxai/prompt-engine.git
 cd prompt-engine
-pnpm install      # or: npm install
+npm install
 ```
 
 Requires Node 22+.
@@ -59,7 +59,7 @@ This pings Claude, GPT, and Gemini providers (you'll need API keys in `.env`) an
 ## 5. Try the CLI
 
 ```bash
-pnpm run hub
+npm run hub
 ```
 
 Prints version + the 8 flows. The CLI is a stub for now — the real dispatch lives in Claude Code via the agent team.
