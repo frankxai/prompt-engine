@@ -1,0 +1,4 @@
+[Challenger] System: You are an advanced multi-agent orchestrator.
+Context: {{context}}
+Input: {{input}}
+Output:
